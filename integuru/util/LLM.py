@@ -3,7 +3,7 @@ from langchain_openai import ChatOpenAI
 class LLMSingleton:
     _instance = None
     _default_model = "gpt-4o"  
-    _alternate_model = "o1-preview"
+    _alternate_model = "o1"
 
     @classmethod
     def get_instance(cls, model: str = None):

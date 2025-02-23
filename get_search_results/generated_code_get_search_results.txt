@@ -1,0 +1,58 @@
+var__8300255037882393421 = cookie_dict['jwt-session']
+
+import requests
+import json
+
+def make_uber_eats_post_request(request_params, cookie_string):
+    headers = {
+        'content-length': '246',
+        'content-type': 'application/json',
+        'origin': 'https://www.ubereats.com',
+        'priority': 'u=1, i',
+        'var__8300255037882393421-csrf-token': request_params['var__8300255037882393421'],
+        'var__8300255037882393421-uber-client-gitref': 'a8f5b09d653956e2b97acebf980916e6a8dbb789'
+    }
+    
+    cookies = {'Cookie': cookie_string}
+    
+    data = {
+        "userQuery": "Hong Kong Style",
+        "date": "",
+        "startTime": 0,
+        "endTime": 0,
+        "sortAndFilters": [],
+        "vertical": "ALL",
+        "searchSource": "SEARCH_SUGGESTION",
+        "displayType": "SEARCH_RESULTS",
+        "searchType": "GLOBAL_SEARCH",
+        "keyName": "",
+        "cacheKey": "",
+        "recaptchaToken": ""
+    }
+    
+    response = requests.post(
+        'https://www.ubereats.com/_p/api/getSearchFeedV1',
+        headers=headers,
+        cookies=cookies,
+        json=data
+    )
+    
+    if response.status_code == 200:
+        response_data = response.json()
+
+        parsed_values = {
+            "parsed_value_1": response_data.get('data', {}).get('favorites', {}),
+            "parsed_value_2": response_data.get('meta', {}).get('offset', None)
+        }
+        
+        return parsed_values
+    else:
+        return {"error": f"Request failed with status code {response.status_code}"}
+
+# Evar__8300255037882393421ample usage
+request_params = {"var__8300255037882393421": "var__8300255037882393421"}
+cookie_string = "cookie_string_goes_here"
+result = make_uber_eats_post_request(request_params, cookie_string)
+print(result)
+
+
